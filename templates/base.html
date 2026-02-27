@@ -5,26 +5,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taller Mecánico</title>
     <style>
-        body { font-family: sans-serif; margin: 0; padding: 20px; }
-        nav { background: #333; padding: 10px; margin-bottom: 20px; }
-        nav a { color: white; text-decoration: none; margin-right: 15px; }
+        :root {
+            /* Default Dark Theme (Purple) */
+            --bg-color: #1a0b2e;
+            --text-color: #e0e0e0;
+            --nav-bg: #2d1b4e;
+            --nav-text: #ffffff;
+            --link-color: #bb86fc;
+            --table-border: #444;
+            --th-bg: #3a225e;
+            --td-bg: #1a0b2e;
+            --form-bg: #261440;
+            --input-bg: #3a225e;
+            --input-text: #fff;
+            --input-border: #555;
+            --button-bg: #7c4dff;
+            --button-text: #ffffff;
+            --button-hover: #651fff;
+        }
+
+        body.light-theme {
+            /* Light Theme (Original-ish) */
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --nav-bg: #333333;
+            --nav-text: #ffffff;
+            --link-color: #0000EE; /* Default link color usually */
+            --table-border: #dddddd;
+            --th-bg: #f2f2f2;
+            --td-bg: #ffffff;
+            --form-bg: #f9f9f9;
+            --input-bg: #ffffff;
+            --input-text: #000000;
+            --input-border: #ccc;
+            --button-bg: #4CAF50;
+            --button-text: #ffffff;
+            --button-hover: #45a049;
+        }
+
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav {
+            background: var(--nav-bg);
+            padding: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav div a {
+            color: var(--nav-text);
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        /* Links inside content might need color adjustment in dark mode if they exist */
+        a { color: var(--link-color); }
+        nav a { color: var(--nav-text) !important; } /* Ensure nav links stay readable */
+
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        form { margin-bottom: 20px; border: 1px solid #ccc; padding: 15px; background: #f9f9f9; }
-        input, select, textarea { margin-bottom: 10px; padding: 5px; width: 100%; box-sizing: border-box; }
-        button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer; }
-        button:hover { background-color: #45a049; }
+
+        th, td {
+            border: 1px solid var(--table-border);
+            padding: 8px;
+            text-align: left;
+            background-color: var(--td-bg);
+            color: var(--text-color);
+        }
+
+        th { background-color: var(--th-bg); }
+
+        form {
+            margin-bottom: 20px;
+            border: 1px solid var(--table-border);
+            padding: 15px;
+            background: var(--form-bg);
+        }
+
+        input, select, textarea {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            border: 1px solid var(--input-border);
+        }
+
+        button {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover { background-color: var(--button-hover); }
+
+        /* Theme Toggle Button Style */
+        #theme-toggle {
+            background: transparent;
+            border: 1px solid var(--nav-text);
+            color: var(--nav-text);
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        #theme-toggle:hover {
+            background: rgba(255,255,255,0.1);
+        }
     </style>
 </head>
 <body>
+    <script>
+        // Apply theme immediately to avoid flash
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light-theme');
+        }
+    </script>
+
     <nav>
-        <a href="{{ url_for('index') }}">Inicio</a>
-        <a href="{{ url_for('companies') }}">Empresas</a>
-        <a href="{{ url_for('vehicles') }}">Vehículos</a>
+        <div>
+            <a href="{{ url_for('index') }}">Inicio</a>
+            <a href="{{ url_for('companies') }}">Empresas</a>
+            <a href="{{ url_for('vehicles') }}">Vehículos</a>
+        </div>
+        <button id="theme-toggle">Cambiar Tema</button>
     </nav>
     <div class="content">
         {% block content %}{% endblock %}
     </div>
+
+    <script>
+        const toggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        toggleButton.addEventListener('click', () => {
+            body.classList.toggle('light-theme');
+
+            if (body.classList.contains('light-theme')) {
+                localStorage.setItem('theme', 'light');
+            } else {
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    </script>
 </body>
 </html>
