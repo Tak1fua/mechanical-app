@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Gestión de Vehículos</h1>
+
+<h2>Registrar Nuevo Vehículo</h2>
+<form method="POST">
+    <label for="plate">Placa:</label>
+    <input type="text" id="plate" name="plate" required>
+    
+    <label for="make">Marca:</label>
+    <input type="text" id="make" name="make" required>
+    
+    <label for="model">Modelo:</label>
+    <input type="text" id="model" name="model" required>
+    
+    <label for="year">Año:</label>
+    <input type="number" id="year" name="year">
+    
+    <label for="company_id">Empresa Propietaria:</label>
+    <select id="company_id" name="company_id" required>
+        <option value="">Seleccione una empresa...</option>
+        {% for company in companies %}
+        <option value="{{ company.id }}">{{ company.name }}</option>
+        {% endfor %}
+    </select>
+    
+    <button type="submit">Guardar</button>
+</form>
+
+<h2>Listado de Vehículos</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Placa</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Año</th>
+            <th>Empresa</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vehicle in vehicles %}
+        <tr>
+            <td>{{ vehicle.id }}</td>
+            <td>{{ vehicle.plate }}</td>
+            <td>{{ vehicle.make }}</td>
+            <td>{{ vehicle.model }}</td>
+            <td>{{ vehicle.year }}</td>
+            <td>{{ vehicle.company.name }}</td>
+            <td><a href="{{ url_for('vehicle_detail', vehicle_id=vehicle.id) }}">Ver Historial</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

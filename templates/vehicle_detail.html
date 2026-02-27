@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Detalle del Vehículo: {{ vehicle.plate }}</h1>
+<p><strong>Marca:</strong> {{ vehicle.make }} <strong>Modelo:</strong> {{ vehicle.model }} <strong>Año:</strong> {{ vehicle.year }}</p>
+<p><strong>Propietario:</strong> {{ vehicle.company.name }}</p>
+
+<h2>Agregar Servicio al Historial</h2>
+<form method="POST">
+    <label for="date">Fecha:</label>
+    <input type="date" id="date" name="date" required>
+    
+    <label for="description">Descripción del Servicio:</label>
+    <textarea id="description" name="description" rows="3" required></textarea>
+    
+    <label for="cost">Costo:</label>
+    <input type="number" id="cost" name="cost" step="0.01">
+    
+    <button type="submit">Agregar Servicio</button>
+</form>
+
+<h2>Historial de Servicios</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Descripción</th>
+            <th>Costo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for service in vehicle.history %}
+        <tr>
+            <td>{{ service.date }}</td>
+            <td>{{ service.description }}</td>
+            <td>${{ service.cost }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

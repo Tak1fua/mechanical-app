@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Panel de Control</h1>
+<p>Bienvenido al sistema de gestión de taller mecánico.</p>
+
+<div style="display: flex; gap: 20px;">
+    <div style="border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
+        <h2>Empresas Registradas</h2>
+        <p style="font-size: 2em; text-align: center;">{{ companies_count }}</p>
+    </div>
+    <div style="border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
+        <h2>Vehículos Registrados</h2>
+        <p style="font-size: 2em; text-align: center;">{{ vehicles_count }}</p>
+    </div>
+</div>
+{% endblock %}
